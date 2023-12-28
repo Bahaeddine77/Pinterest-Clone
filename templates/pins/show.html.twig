@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PinsController!{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+    
+    <div class="row">
+        <div class="col-md-5 mx-auto">
+            <article class="pin bg-white rounded shadow">
+                <div class="mw-100 overflow-hidden rounded-top">
+                
+                    <img src="{{ (pin.imageName ? vich_uploader_asset(pin) : asset('images/Picture2.jpg'))  | imagine_filter('squared_thumbnail_medium') }}" alt="{{pin.titre}}" class="w-100 ">
+                   
+                
+                </div>
+                
+                <div class="p-3">
+                    <h1 class="h5 text-secondary">{{pin.titre}}</h1>
+                    <p class=" text-muted"><small>
+                    submitted <time datetime="{{pin.createdAt|date('Y-m-d H:i:s')}}"> {{pin.createdAt|ago}}</time>
+                    by {{pin.user.prenom}} {{pin.user.nom}}
+                    </small></p>
+                    <p class="pt-3 text-break">
+                        {{pin.description}}
+                    </p>
+
+                    {% if app.user.isVerified and app.user == pin.user %}
+                        <div>
+                            <a href="{{path('app_pins_edit' , {id: pin.id})}}" class="btn btn-light">Edit</a>
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('js-pin-delete').submit()" class="btn btn-light">Delete</a>
+
+                            <form id='js-pin-delete' action="{{ path('app_pins_delete', {id: pin.id})}}" method='post' style="display:none;">
+                                <input type="hidden" name="csrf_token" value="{{csrf_token('pin_deletion_'~ pin.id)}}">
+                                <input type="hidden" name="_method" value="DELETE">
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+             
+            </article>
+           
+            
+        
+        
+        </div>
+    
+    </div>
+
+    
+    
+      
+
+
+
+
+{% endblock %}

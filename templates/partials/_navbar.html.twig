@@ -1,0 +1,44 @@
+  <nav class="navbar navbar-expand-md mb-4" style="background-color: #e3f2fd;" >
+  
+        <div class="container">
+
+            <a class="navbar-brand" href="{{path ("app_home")}}">Pinterest</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarsExample03">
+                <ul class="navbar-nav ml-5 ">
+                    {% if app.user %}
+                        <li class="nav-item">
+                            <a class="nav-link "  href="{{path ("app_pins_create")}}">New Pin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{path ('app_account')}}">Account</a>
+                        </li>
+                            <li class="nav-item">
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('js-logout-form').submit()" class="nav-link">Logout</a>
+
+                            <form id='js-logout-form' action="{{ path('app_logout')}}" method='post' style="display:none;">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout')}}">
+                            </form>
+                        </li>
+
+                    
+
+                    {% else %}
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{path('app_register')}}">Register</a>
+                        </li>
+                            <li class="nav-item">
+                            <a class="nav-link" href="{{path('app_login')}}">Login</a>
+                        </li>
+                    {% endif %}
+                
+                </ul>
+            
+            </div>
+        </div>
+   
+  </nav>
